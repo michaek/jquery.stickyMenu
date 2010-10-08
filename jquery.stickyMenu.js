@@ -23,16 +23,16 @@
       var $stickyLinks = $stickyMenu.find('a');
 
       // we'll keep track of whether we just clicked the menu
-      var menuClicked = false;
-      $stickyLinks.click(function(){ menuClicked = true; });
+      var listenForScroll = false;
+      $stickyLinks.click(function(){ listenForScroll = false; });
 
       var activateLinksOnScroll = function(){
         var scrollOffset = $(this).scrollTop();
         var $active = null;
         var $activeLink = null;
 
-        // since we're scrolling, we can safely reset the menu click state
-        menuClicked = false;
+        // since we're scrolling, we should listen for scrolling!
+        listenForScroll = true;
 
         // we want to get the active link, but this is not the efficient way!
         // TODO: optimize even just a little
@@ -67,8 +67,8 @@
         $stickyLinks.removeClass(options.activeClass);
         $link.addClass(options.activeClass);
         
-        // if the menu was clicked to cause this change
-        if (menuClicked) {
+        // only start scrolling if we're not listening for scrolling
+        if (!listenForScroll) {
           // unbind the scroll function to avoid conflicts
           $(window).unbind('scroll', activateLinksOnScroll);
           // scroll to the target element
