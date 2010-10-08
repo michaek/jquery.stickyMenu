@@ -14,13 +14,14 @@
   $.fn.stickyMenu = function(options){
     options = $.extend({
       containedBy: null,  // dom element that restricts scrolling of navigation
+      distanceFromTop: 0,
       activeClass: 'active'
     }, options);
     
     // loop over the selected elements
     this.each(function(){
       var $stickyMenu = $(this);
-      var $stickyLinks = $stickyMenu.find('a');
+      var $stickyLinks = $stickyMenu.find('a[href^=#]');
 
       // we'll keep track of whether we just clicked the menu
       var listenForScroll = false;
@@ -80,7 +81,7 @@
       });
       
       // invoke sticky on the menu
-      $stickyMenu.sticky({containedBy: options.containedBy});
+      $stickyMenu.sticky({containedBy: options.containedBy, distanceFromTop: options.distanceFromTop});
       // invoke address on our menu links
       $stickyLinks.address();
       
